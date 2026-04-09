@@ -1,0 +1,43 @@
+Jan 15 02:03:11 webserver sshd[3211]: Failed password for root from 185.220.101.45 port 52134 ssh2
+Jan 15 02:03:14 webserver sshd[3212]: Failed password for root from 185.220.101.45 port 52135 ssh2
+Jan 15 02:03:17 webserver sshd[3213]: Failed password for admin from 185.220.101.45 port 52136 ssh2
+Jan 15 02:03:20 webserver sshd[3214]: Failed password for admin from 185.220.101.45 port 52137 ssh2
+Jan 15 02:03:23 webserver sshd[3215]: Invalid user ubuntu from 185.220.101.45 port 52138
+Jan 15 02:03:26 webserver sshd[3216]: Failed password for invalid user ubuntu from 185.220.101.45 port 52139 ssh2
+Jan 15 02:03:29 webserver sshd[3217]: Failed password for root from 185.220.101.45 port 52140 ssh2
+Jan 15 02:03:32 webserver sshd[3218]: Invalid user deploy from 185.220.101.45 port 52141
+Jan 15 02:03:35 webserver sshd[3219]: Failed password for invalid user deploy from 185.220.101.45 port 52142 ssh2
+Jan 15 02:03:38 webserver sshd[3220]: Failed password for invalid user git from 185.220.101.45 port 52143 ssh2
+Jan 15 02:03:41 webserver sshd[3221]: Invalid user pi from 185.220.101.45 port 52144
+Jan 15 02:03:44 webserver sshd[3222]: Failed password for invalid user pi from 185.220.101.45 port 52145 ssh2
+Jan 15 02:03:47 webserver sshd[3223]: Failed password for root from 185.220.101.45 port 52146 ssh2
+Jan 15 02:03:50 webserver sshd[3224]: Failed password for root from 185.220.101.45 port 52147 ssh2
+Jan 15 02:04:01 webserver sshd[3225]: Failed password for root from 185.220.101.45 port 52148 ssh2
+Jan 15 02:04:04 webserver sshd[3226]: Accepted password for root from 185.220.101.45 port 52149 ssh2
+Jan 15 02:04:09 webserver sshd[3227]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Jan 15 02:04:15 webserver sudo: root : TTY=pts/1 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/cat /etc/shadow
+Jan 15 02:05:21 webserver sshd[3301]: Failed password for root from 91.92.251.103 port 44871 ssh2
+Jan 15 02:05:24 webserver sshd[3302]: Failed password for admin from 91.92.251.103 port 44872 ssh2
+Jan 15 02:05:27 webserver sshd[3303]: Failed password for user from 91.92.251.103 port 44873 ssh2
+Jan 15 02:05:30 webserver sshd[3304]: Failed password for test from 91.92.251.103 port 44874 ssh2
+Jan 15 02:05:33 webserver sshd[3305]: Failed password for guest from 91.92.251.103 port 44875 ssh2
+Jan 15 02:05:36 webserver sshd[3306]: Failed password for oracle from 91.92.251.103 port 44876 ssh2
+Jan 15 02:05:39 webserver sshd[3307]: Failed password for postgres from 91.92.251.103 port 44877 ssh2
+Jan 15 02:05:42 webserver sshd[3308]: Failed password for ftpuser from 91.92.251.103 port 44878 ssh2
+Jan 15 08:30:01 webserver sshd[4001]: Accepted publickey for devops from 10.0.0.15 port 56234 ssh2
+Jan 15 08:30:05 webserver sshd[4001]: pam_unix(sshd:session): session opened for user devops by (uid=1001)
+Jan 15 09:15:44 webserver sshd[4101]: Failed password for root from 103.235.46.39 port 33901 ssh2
+Jan 15 09:15:47 webserver sshd[4102]: Failed password for root from 103.235.46.39 port 33902 ssh2
+Jan 15 09:15:50 webserver sshd[4103]: Invalid user admin from 103.235.46.39 port 33903
+Jan 15 09:15:53 webserver sshd[4104]: Failed password for invalid user admin from 103.235.46.39 port 33904 ssh2
+Jan 15 09:15:56 webserver sshd[4105]: Failed password for root from 103.235.46.39 port 33905 ssh2
+Jan 15 09:15:59 webserver sshd[4106]: Failed password for root from 103.235.46.39 port 33906 ssh2
+Jan 15 09:16:02 webserver sshd[4107]: Connection closed by 103.235.46.39 port 33907
+Jan 15 17:45:12 webserver sshd[5001]: Accepted password for admin from 198.51.100.22 port 61002 ssh2
+Jan 15 17:45:15 webserver sshd[5001]: pam_unix(sshd:session): session opened for user admin by (uid=1002)
+Jan 15 23:58:03 webserver sshd[5501]: Failed password for root from 45.33.32.156 port 22011 ssh2
+Jan 15 23:58:06 webserver sshd[5502]: Failed password for root from 45.33.32.156 port 22012 ssh2
+Jan 15 23:58:09 webserver sshd[5503]: Failed password for root from 45.33.32.156 port 22013 ssh2
+Jan 15 23:58:12 webserver sshd[5504]: Failed password for admin from 45.33.32.156 port 22014 ssh2
+Jan 15 23:58:15 webserver sshd[5505]: Failed password for admin from 45.33.32.156 port 22015 ssh2
+Jan 15 23:58:18 webserver sshd[5506]: Accepted password for admin from 45.33.32.156 port 22016 ssh2

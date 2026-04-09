@@ -1,0 +1,17 @@
+Jan 15 08:30:01 appserver sshd[2001]: Accepted publickey for alice from 10.0.0.10 port 52100 ssh2
+Jan 15 08:30:02 appserver sshd[2001]: pam_unix(sshd:session): session opened for user alice by (uid=1001)
+Jan 15 08:35:10 appserver sudo: alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/apt update
+Jan 15 09:00:15 appserver sshd[2101]: Accepted publickey for bob from 10.0.0.11 port 53200 ssh2
+Jan 15 09:00:16 appserver sshd[2101]: pam_unix(sshd:session): session opened for user bob by (uid=1002)
+Jan 15 09:15:00 appserver sshd[2201]: Accepted publickey for charlie from 10.0.0.12 port 54000 ssh2
+Jan 15 09:15:01 appserver sshd[2201]: pam_unix(sshd:session): session opened for user charlie by (uid=1003)
+Jan 15 10:00:00 appserver sudo: charlie : TTY=pts/2 ; PWD=/var/www/html ; USER=root ; COMMAND=/usr/bin/systemctl restart nginx
+Jan 15 10:30:22 appserver sshd[2301]: Accepted password for devops from 10.0.0.20 port 55100 ssh2
+Jan 15 12:00:00 appserver sshd[2001]: pam_unix(sshd:session): session closed for user alice
+Jan 15 13:15:30 appserver sshd[2101]: pam_unix(sshd:session): session closed for user bob
+Jan 15 14:45:00 appserver sshd[2401]: Accepted publickey for alice from 10.0.0.10 port 52300 ssh2
+Jan 15 14:45:01 appserver sshd[2401]: pam_unix(sshd:session): session opened for user alice by (uid=1001)
+Jan 15 15:00:10 appserver sudo: alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/tail -f /var/log/syslog
+Jan 15 17:00:00 appserver sshd[2201]: pam_unix(sshd:session): session closed for user charlie
+Jan 15 17:30:00 appserver sshd[2401]: pam_unix(sshd:session): session closed for user alice
+Jan 15 17:45:00 appserver sshd[2301]: pam_unix(sshd:session): session closed for user devops

