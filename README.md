@@ -25,8 +25,7 @@
 - [Sample Datasets](#-sample-datasets)
 - [API Reference](#-api-reference)
 - [Getting Started](#-getting-started)
-- [Docker Deployment](#-docker-deployment)
-- [Environment Variables](#-environment-variables)
+- [Configuring Your LLM](#-configuring-your-llm)
 - [Security Hardening](#-security-hardening)
 - [MITRE ATT&CK Coverage](#-mitre-attck-coverage)
 - [Resume Highlights](#-resume-highlights)
@@ -44,7 +43,7 @@ The system:
 4. Feeds results to an LLM for narrative analysis, severity scoring, and remediation advice
 5. Optionally generates a full, printable **SOC Incident Report** with MITRE ATT&CK mappings
 
-It is designed to be **modular**, **provider-agnostic** (swap Anthropic → OpenAI → local Ollama via one env variable), and **security-hardened** from day one.
+It is designed to be **modular**, **provider-agnostic** (swap Anthropic → OpenAI → local Ollama by editing a single file), and **security-hardened** from day one.
 
 ---
 
@@ -112,7 +111,6 @@ One click generates a formal report including:
 | **AI / LLM** | Anthropic Claude (default), OpenAI GPT-4o, Ollama (local) |
 | **HTTP Client** | httpx (async) |
 | **Validation** | Pydantic v2 |
-| **Containerization** | Docker, Docker Compose |
 | **Fonts** | JetBrains Mono, Rajdhani, IBM Plex Sans |
 
 ---
@@ -208,9 +206,8 @@ ai-security-log-analyzer/
 │   ├── app.py                  # FastAPI app — routes, rate limiter, session store
 │   ├── log_parser.py           # Multi-format log parser (regex-based, 6 parsers)
 │   ├── threat_detector.py      # Rule-based threat detection (7 detection engines)
-│   ├── llm_analyzer.py         # LLM abstraction layer (Anthropic / OpenAI / Ollama)
-│   ├── requirements.txt        # Python dependencies
-│   └── .env.example            # Environment variable template
+│   ├── llm_analyzer.py         # ⭐ LLM config lives here — edit your API key & provider
+│   └── requirements.txt        # Python dependencies
 │
 ├── frontend/
 │   ├── src/
@@ -231,12 +228,6 @@ ai-security-log-analyzer/
 │   ├── normal_auth.log         # Clean baseline — minimal/no threats
 │   └── mixed_threats.log       # APT-style multi-stage attack
 │
-├── docker/
-│   ├── Dockerfile.backend      # Python 3.12-slim, non-root user
-│   └── Dockerfile.frontend     # Node build + nginx production serve
-│
-├── docker-compose.yml          # Orchestrates backend + frontend
-├── .gitignore
 └── README.md
 ```
 
@@ -311,25 +302,6 @@ This keeps prompts small and deterministic, dramatically improving output qualit
   "confidence":                "High"
 }
 ```
-
-### Switching LLM Providers
-
-```env
-# Anthropic Claude (default — best results)
-LLM_PROVIDER=anthropic
-ANTHROPIC_API_KEY=sk-ant-...
-
-# OpenAI GPT-4o
-LLM_PROVIDER=openai
-OPENAI_API_KEY=sk-...
-
-# Local Ollama — no API key, fully offline
-LLM_PROVIDER=ollama
-OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=llama3
-```
-
-Zero code changes required — one environment variable controls everything.
 
 ---
 
@@ -418,7 +390,20 @@ git clone https://github.com/YOUR_USERNAME/ai-security-log-analyzer.git
 cd ai-security-log-analyzer
 ```
 
-### 2. Backend Setup
+### 2. Add Your API Key
+
+Open `backend/llm_analyzer.py` and paste your key at the top of the file:
+
+```python
+# ─── Provider Config ──────────────────────────────────────
+LLM_PROVIDER  = "anthropic"
+ANTHROPIC_KEY = "sk-ant-your-key-here"    # ← paste here
+MODEL_NAME    = "claude-sonnet-4-20250514"
+```
+
+See [Configuring Your LLM](#-configuring-your-llm) for OpenAI and Ollama options.
+
+### 3. Backend Setup
 
 ```bash
 cd backend
@@ -435,92 +420,104 @@ source .venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Create your .env file
-# (see Environment Variables section below)
-```
-
-Create `backend/.env`:
-```env
-ANTHROPIC_API_KEY=your_key_here
-LLM_PROVIDER=anthropic
-LLM_MODEL=claude-sonnet-4-20250514
-```
-
-```bash
-# Start the backend
+# Start the server
 uvicorn app:app --reload --port 8000
 # API running at http://localhost:8000
 # Docs at      http://localhost:8000/api/docs
 ```
 
-### 3. Frontend Setup
+### 4. Frontend Setup
 
 ```bash
-# In a new terminal
+# Open a new terminal
 cd frontend
 
 npm install
 npm run dev
-# Dashboard at http://localhost:3000
+# Dashboard opens at http://localhost:3000
 ```
 
-### 4. Run Your First Analysis
+### 5. Run Your First Analysis
 
 1. Open `http://localhost:3000`
 2. Select **"SSH Brute Force Attack"** from the sample list
 3. Click **"Run AI Analysis"**
-4. Explore threat cards, AI panel, IP intelligence
-5. Click **"AI SOC Report"** for the full incident report
+4. Explore the threat cards, AI panel, and IP intelligence tabs
+5. Click **"AI SOC Report"** for the full formal incident report
 
 ---
 
-## 🐳 Docker Deployment
+## 🔑 Configuring Your LLM
 
-### Quick Start
+All LLM configuration lives in one place: **`backend/llm_analyzer.py`**. Open the file and edit the constants at the very top — no environment files or command-line flags needed.
 
-```bash
-# Configure environment
-echo "ANTHROPIC_API_KEY=your_key_here" > .env
-echo "LLM_PROVIDER=anthropic" >> .env
+---
 
-# Build and launch
-docker-compose up --build
+### Option A — Anthropic Claude (Recommended)
 
-# Services:
-#   Frontend  →  http://localhost:3000
-#   Backend   →  http://localhost:8000
-#   API Docs  →  http://localhost:8000/api/docs
-```
+Get your key from [console.anthropic.com](https://console.anthropic.com/)
 
-### Stop Services
+```python
+# backend/llm_analyzer.py  — lines 8–12
 
-```bash
-docker-compose down
-```
-
-### Production Build
-
-```bash
-# Build with custom API URL for production
-docker-compose build \
-  --build-arg VITE_API_URL=https://your-api-domain.com
-
-docker-compose up -d
+LLM_PROVIDER  = "anthropic"
+ANTHROPIC_KEY = "sk-ant-xxxxxxxxxxxxxxxxxxxxxxxx"   # ← your key here
+OPENAI_KEY    = ""
+MODEL_NAME    = "claude-sonnet-4-20250514"
 ```
 
 ---
 
-## ⚙️ Environment Variables
+### Option B — OpenAI GPT-4o
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `LLM_PROVIDER` | No | `anthropic` | LLM backend: `anthropic`, `openai`, or `ollama` |
-| `ANTHROPIC_API_KEY` | If using Anthropic | — | Your Anthropic API key |
-| `LLM_MODEL` | No | `claude-sonnet-4-20250514` | Anthropic model name |
-| `OPENAI_API_KEY` | If using OpenAI | — | Your OpenAI API key |
-| `OPENAI_MODEL` | No | `gpt-4o` | OpenAI model name |
-| `OLLAMA_HOST` | If using Ollama | `http://localhost:11434` | Ollama server URL |
-| `OLLAMA_MODEL` | If using Ollama | `llama3` | Local model name |
+Get your key from [platform.openai.com](https://platform.openai.com/)
+
+```python
+# backend/llm_analyzer.py  — lines 8–12
+
+LLM_PROVIDER = "openai"
+ANTHROPIC_KEY = ""
+OPENAI_KEY   = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  # ← your key here
+MODEL_NAME   = "gpt-4o"                               # or gpt-4-turbo
+```
+
+---
+
+### Option C — Ollama (Fully Local, No API Key)
+
+Run models entirely on your own machine — free, offline, and private.
+
+**1. Install Ollama** from [ollama.com/download](https://ollama.com/download)
+
+**2. Pull a model:**
+```bash
+ollama pull llama3       # recommended
+ollama pull mistral      # lighter alternative
+ollama pull phi3         # runs on low-spec hardware
+```
+
+**3. Edit `llm_analyzer.py`:**
+```python
+# backend/llm_analyzer.py  — lines 8–14
+
+LLM_PROVIDER = "ollama"
+OLLAMA_HOST  = "http://localhost:11434"   # default Ollama address
+OLLAMA_MODEL = "llama3"                   # must match what you pulled
+```
+
+Ollama runs in the background automatically after installation.
+
+---
+
+### Switching Providers
+
+It is a one-line change. For example, switching from Anthropic to Ollama:
+
+```python
+LLM_PROVIDER = "ollama"    # was "anthropic"
+```
+
+Restart the backend and you're done. No other files need changing.
 
 ---
 
@@ -529,13 +526,11 @@ docker-compose up -d
 | Feature | Implementation |
 |---------|---------------|
 | **Rate Limiting** | 30 requests/minute per IP, in-memory sliding window |
-| **File Validation** | Extension whitelist (`.log`, `.txt`, `.json`) + MIME check |
+| **File Validation** | Extension whitelist (`.log`, `.txt`, `.json`) |
 | **Size Limiting** | Hard 10MB cap on all file uploads and pasted text |
 | **Input Sanitization** | Null byte (`\x00`) removal, UTF-8 normalization |
 | **Path Traversal Prevention** | `sanitize_filename()` strips `../`, `/`, `\` from filenames |
-| **Non-root Docker** | Runs as `appuser` (UID 1000), never as root |
 | **CORS** | Restricted to frontend origin only |
-| **No Secrets in Code** | All credentials via environment variables only |
 
 ---
 
@@ -559,7 +554,7 @@ docker-compose up -d
 >
 > - Engineered an LLM-powered SOC analyst tool using **FastAPI, React, and Anthropic Claude** that ingests 5 security log formats, runs 7 rule-based threat detection algorithms (brute force, port scan, SQLi/XSS, credential compromise), and auto-generates formal incident reports with **MITRE ATT&CK** mappings
 >
-> - Designed a **provider-agnostic LLM abstraction layer** (Anthropic / OpenAI / Ollama) with structured JSON prompt engineering for threat narratives, 0–100 severity scoring, and prioritized remediation plans; containerized with **Docker Compose** and secured with rate limiting, input sanitization, and file validation
+> - Designed a **provider-agnostic LLM abstraction layer** (Anthropic / OpenAI / Ollama) with structured JSON prompt engineering for threat narratives, 0–100 severity scoring, and prioritized remediation plans; secured with rate limiting, input sanitization, and file validation
 
 ---
 
